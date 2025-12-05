@@ -1,0 +1,45 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground">
+
+    <TextView
+        android:id="@+id/txtStudentName"
+        android:text="Nom Prénom"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
+
+        <RadioButton
+            android:id="@+id/radioPresent"
+            android:text="Présent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/radioAbsent"
+            android:text="Absent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:id="@+id/radioRetard"
+            android:text="Retard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </RadioGroup>
+</LinearLayout>

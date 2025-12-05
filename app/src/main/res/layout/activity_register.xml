@@ -1,0 +1,54 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <TextView
+        android:text="Inscription"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp" />
+
+    <EditText
+        android:id="@+id/registerEmail"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/registerPassword"
+        android:hint="Mot de passe"
+        android:inputType="textPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" />
+
+    <EditText
+        android:id="@+id/registerConfirmPassword"
+        android:hint="Confirmer mot de passe"
+        android:inputType="textPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" />
+
+    <Button
+        android:id="@+id/btnRegister"
+        android:text="S'inscrire"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp" />
+
+    <TextView
+        android:id="@+id/txtGoToLogin"
+        android:text="Déjà un compte ? Se connecter"
+        android:textColor="#2196F3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:clickable="true" />
+</LinearLayout>
