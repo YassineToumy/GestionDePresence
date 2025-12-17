@@ -20,7 +20,7 @@ public class StudentListActivity extends AppCompatActivity {
 
     private DatabaseHelper db;
     private RecyclerView studentRecycler;
-    private Button btnAdd, btnAttendance, btnHistory, btnManageClasses;
+    private Button btnAdd, btnNewSeance, btnHistory, btnManageClasses, btnViewSeances;
     private TextView txtClassTitle;
     private StudentAdapter studentAdapter;
     private List<Student> studentList;
@@ -47,9 +47,10 @@ public class StudentListActivity extends AppCompatActivity {
         // Initialize views
         studentRecycler = findViewById(R.id.studentRecycler);
         btnAdd = findViewById(R.id.btnAdd);
-        btnAttendance = findViewById(R.id.btnAttendance);
+        btnNewSeance = findViewById(R.id.btnNewSeance);
         btnHistory = findViewById(R.id.btnHistory);
         btnManageClasses = findViewById(R.id.btnManageClasses);
+        btnViewSeances = findViewById(R.id.btnViewSeances);
         txtClassTitle = findViewById(R.id.txtClassTitle);
 
         // Configure view based on whether we're viewing a specific class or main menu
@@ -59,8 +60,9 @@ public class StudentListActivity extends AppCompatActivity {
             txtClassTitle.setVisibility(View.VISIBLE);
             studentRecycler.setVisibility(View.VISIBLE);
             btnAdd.setVisibility(View.VISIBLE);
-            btnAttendance.setVisibility(View.VISIBLE);
+            btnNewSeance.setVisibility(View.VISIBLE);  // Show new seance button
             btnHistory.setVisibility(View.VISIBLE);
+            btnViewSeances.setVisibility(View.VISIBLE);
             btnManageClasses.setVisibility(View.GONE);
 
             // Setup RecyclerView
@@ -72,8 +74,9 @@ public class StudentListActivity extends AppCompatActivity {
             txtClassTitle.setVisibility(View.VISIBLE);
             studentRecycler.setVisibility(View.GONE);
             btnAdd.setVisibility(View.GONE);
-            btnAttendance.setVisibility(View.GONE);
+            btnNewSeance.setVisibility(View.GONE);
             btnHistory.setVisibility(View.GONE);
+            btnViewSeances.setVisibility(View.GONE);
             btnManageClasses.setVisibility(View.VISIBLE);
         }
 
@@ -95,18 +98,29 @@ public class StudentListActivity extends AppCompatActivity {
             }
         });
 
-        // Attendance button
-        btnAttendance.setOnClickListener(new View.OnClickListener() {
+        // NEW: New Seance button - Creates a new seance then takes attendance
+        btnNewSeance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(StudentListActivity.this, AttendanceActivity.class);
-                if (classId != -1) {
-                    intent.putExtra("classId", classId);
-                    intent.putExtra("className", className);
-                }
+                Intent intent = new Intent(StudentListActivity.this, CreateSeanceActivity.class);
+                intent.putExtra("classId", classId);
+                intent.putExtra("className", className);
                 startActivity(intent);
             }
         });
+
+        // View seances button
+        if (btnViewSeances != null) {
+            btnViewSeances.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(StudentListActivity.this, SeanceListActivity.class);
+                    intent.putExtra("classId", classId);
+                    intent.putExtra("className", className);
+                    startActivity(intent);
+                }
+            });
+        }
 
         // History button
         btnHistory.setOnClickListener(new View.OnClickListener() {

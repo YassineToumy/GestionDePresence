@@ -1,10 +1,12 @@
 package com.example.gestiondepresence.models;
+
 public class Attendance {
     private int id;
     private int studentId;
     private String date;
     private String status; // "present", "absent", "retard"
     private String sessionName;
+    private int seanceId; // NEW: Link to Seance
 
     // Constructors
     public Attendance() {
@@ -16,6 +18,7 @@ public class Attendance {
         this.date = date;
         this.status = status;
         this.sessionName = sessionName;
+        this.seanceId = 0;
     }
 
     public Attendance(int studentId, String date, String status, String sessionName) {
@@ -23,6 +26,26 @@ public class Attendance {
         this.date = date;
         this.status = status;
         this.sessionName = sessionName;
+        this.seanceId = 0;
+    }
+
+    // NEW: Constructor with seanceId
+    public Attendance(int studentId, String date, String status, String sessionName, int seanceId) {
+        this.studentId = studentId;
+        this.date = date;
+        this.status = status;
+        this.sessionName = sessionName;
+        this.seanceId = seanceId;
+    }
+
+    // Full constructor
+    public Attendance(int id, int studentId, String date, String status, String sessionName, int seanceId) {
+        this.id = id;
+        this.studentId = studentId;
+        this.date = date;
+        this.status = status;
+        this.sessionName = sessionName;
+        this.seanceId = seanceId;
     }
 
     // Getters and Setters
@@ -64,5 +87,14 @@ public class Attendance {
 
     public void setSessionName(String sessionName) {
         this.sessionName = sessionName;
+    }
+
+    // NEW: seanceId getter/setter
+    public int getSeanceId() {
+        return seanceId;
+    }
+
+    public void setSeanceId(int seanceId) {
+        this.seanceId = seanceId;
     }
 }

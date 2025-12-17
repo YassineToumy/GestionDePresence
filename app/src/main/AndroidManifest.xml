@@ -60,6 +60,21 @@
             android:name=".AddClassActivity"
             android:exported="false" />
 
+        <!-- NEW: Create Seance Activity -->
+        <activity
+            android:name=".CreateSeanceActivity"
+            android:exported="false" />
+
+        <!-- NEW: Seance List Activity -->
+        <activity
+            android:name=".SeanceListActivity"
+            android:exported="false" />
+
+        <!-- NEW: Seance Detail Activity -->
+        <activity
+            android:name=".SeanceDetailActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

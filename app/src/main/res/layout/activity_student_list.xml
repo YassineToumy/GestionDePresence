@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:padding="16dp"
@@ -29,17 +30,32 @@
         android:layout_marginTop="8dp"
         android:visibility="gone" />
 
+    <!-- NEW: Button to create a new seance and take attendance -->
     <Button
-        android:id="@+id/btnAttendance"
-        android:text="Prendre présence"
+        android:id="@+id/btnNewSeance"
+        android:text="📋 Nouvelle Séance (Prendre Présence)"
+        android:textSize="14sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:padding="14dp"
+        android:backgroundTint="#2196F3"
+        android:visibility="gone" />
+
+    <!-- Button to view all seances for this class -->
+    <Button
+        android:id="@+id/btnViewSeances"
+        android:text="📚 Voir les Séances"
+        android:textSize="14sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#9C27B0"
         android:visibility="gone" />
 
     <Button
         android:id="@+id/btnHistory"
-        android:text="Historique des Absences"
+        android:text="📊 Historique des Absences"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
