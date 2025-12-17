@@ -25,6 +25,11 @@
             android:name=".RegisterActivity"
             android:exported="false" />
 
+        <!-- Main Menu Activity -->
+        <activity
+            android:name=".MainMenuActivity"
+            android:exported="false" />
+
         <!-- Student List Activity -->
         <activity
             android:name=".StudentListActivity"
@@ -43,6 +48,16 @@
         <!-- History Activity -->
         <activity
             android:name=".HistoryActivity"
+            android:exported="false" />
+
+        <!-- Manage Classes Activity -->
+        <activity
+            android:name=".ManageClassesActivity"
+            android:exported="false" />
+
+        <!-- Add Class Activity -->
+        <activity
+            android:name=".AddClassActivity"
             android:exported="false" />
 
     </application>

@@ -1,27 +1,36 @@
 package com.example.gestiondepresence.models;
 
-
 public class Student {
     private int id;
     private String name;
     private String surname;
     private String group;
+    private int classId;
 
     // Constructors
     public Student() {
     }
 
-    public Student(int id, String name, String surname, String group) {
+    public Student(int id, String name, String surname, String group, int classId) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.group = group;
+        this.classId = classId;
+    }
+
+    public Student(String name, String surname, String group, int classId) {
+        this.name = name;
+        this.surname = surname;
+        this.group = group;
+        this.classId = classId;
     }
 
     public Student(String name, String surname, String group) {
         this.name = name;
         this.surname = surname;
         this.group = group;
+        this.classId = -1;
     }
 
     // Getters and Setters
@@ -55,6 +64,14 @@ public class Student {
 
     public void setGroup(String group) {
         this.group = group;
+    }
+
+    public int getClassId() {
+        return classId;
+    }
+
+    public void setClassId(int classId) {
+        this.classId = classId;
     }
 
     @Override

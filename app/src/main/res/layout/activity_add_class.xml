@@ -6,7 +6,7 @@
     android:gravity="center">
 
     <TextView
-        android:text="Ajouter un Étudiant"
+        android:text="Ajouter une Classe"
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_width="wrap_content"
@@ -14,37 +14,22 @@
         android:layout_marginBottom="32dp" />
 
     <EditText
-        android:id="@+id/name"
-        android:hint="Nom"
+        android:id="@+id/className"
+        android:hint="Nom de la classe (ex: 3ème année Informatique)"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <EditText
-        android:id="@+id/surname"
-        android:hint="Prénom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp" />
-
-    <AutoCompleteTextView
-        android:id="@+id/group"
-        android:hint="Classe (ex: GLSI2)"
+        android:id="@+id/classDescription"
+        android:hint="Description (optionnel)"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:completionThreshold="1"
-        android:dropDownHeight="200dp" />
-
-    <TextView
-        android:text="💡 Astuce: Commencez à taper pour voir les classes disponibles"
-        android:textSize="12sp"
-        android:textColor="#666666"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp" />
+        android:minLines="3"
+        android:gravity="top" />
 
     <Button
-        android:id="@+id/btnSave"
+        android:id="@+id/btnSaveClass"
         android:text="Enregistrer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -1,6 +1,5 @@
 package com.example.gestiondepresence;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -28,6 +27,9 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Initialize database
         db = new DatabaseHelper(this);
+
+        // Note: Cette page est UNIQUEMENT pour l'inscription des PROFESSEURS
+        // Les étudiants sont ajoutés via AddStudentActivity
 
         // Initialize views
         registerEmail = findViewById(R.id.registerEmail);

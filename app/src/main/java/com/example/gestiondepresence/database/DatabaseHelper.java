@@ -1,4 +1,5 @@
 package com.example.gestiondepresence.database;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -28,7 +29,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String STUDENT_ID = "id";
     private static final String STUDENT_NAME = "name";
     private static final String STUDENT_SURNAME = "surname";
-    private static final String STUDENT_GROUP = "group_name";
+    private static final String STUDENT_GROUP = "group_name"; // Doit correspondre au nom d'une classe
+
+    // Table Classes
+    private static final String TABLE_CLASSES = "classes";
+    private static final String CLASS_ID = "id";
+    private static final String CLASS_NAME = "class_name";
+    private static final String CLASS_DESCRIPTION = "description";
 
     // Table Attendance
     private static final String TABLE_ATTENDANCE = "attendance";
@@ -51,6 +58,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + USER_PASSWORD + " TEXT"
                 + ")";
         db.execSQL(createUsersTable);
+
+        // Create Classes table
+        String createClassesTable = "CREATE TABLE " + TABLE_CLASSES + "("
+                + CLASS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + CLASS_NAME + " TEXT,"
+                + CLASS_DESCRIPTION + " TEXT"
+                + ")";
+        db.execSQL(createClassesTable);
 
         // Create Students table
         String createStudentsTable = "CREATE TABLE " + TABLE_STUDENTS + "("
@@ -79,6 +94,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_STUDENTS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ATTENDANCE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CLASSES);
         onCreate(db);
     }
 
@@ -124,6 +140,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean addStudent(Student student) {
         SQLiteDatabase db = this.getWritableDatabase();
+
+        // Vérifier si la classe existe
+        if (!classExists(student.getGroup())) {
+            return false; // La classe n'existe pas
+        }
+
         ContentValues values = new ContentValues();
         values.put(STUDENT_NAME, student.getName());
         values.put(STUDENT_SURNAME, student.getSurname());
@@ -131,6 +153,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         long result = db.insert(TABLE_STUDENTS, null, values);
         return result != -1;
+    }
+
+    // Vérifier si une classe existe par son nom
+    public boolean classExists(String className) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_CLASSES,
+                new String[]{CLASS_ID},
+                CLASS_NAME + "=?",
+                new String[]{className},
+                null, null, null);
+
+        boolean exists = cursor.getCount() > 0;
+        cursor.close();
+        return exists;
     }
 
     public List<Student> getAllStudents() {
@@ -154,6 +190,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean updateStudent(Student student) {
         SQLiteDatabase db = this.getWritableDatabase();
+
+        // Vérifier si la classe existe
+        if (!classExists(student.getGroup())) {
+            return false; // La classe n'existe pas
+        }
+
         ContentValues values = new ContentValues();
         values.put(STUDENT_NAME, student.getName());
         values.put(STUDENT_SURNAME, student.getSurname());
@@ -253,5 +295,148 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return attendanceList;
+    }
+
+    // Get number of absences for a specific student
+    public int getAbsenceCount(int studentId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_ATTENDANCE,
+                new String[]{ATTENDANCE_ID},
+                ATTENDANCE_STUDENT_ID + "=? AND " + ATTENDANCE_STATUS + "=?",
+                new String[]{String.valueOf(studentId), "absent"},
+                null, null, null);
+
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
+
+    // Get number of retards for a specific student
+    public int getRetardCount(int studentId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_ATTENDANCE,
+                new String[]{ATTENDANCE_ID},
+                ATTENDANCE_STUDENT_ID + "=? AND " + ATTENDANCE_STATUS + "=?",
+                new String[]{String.valueOf(studentId), "retard"},
+                null, null, null);
+
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
+
+    // ==================== CLASS OPERATIONS ====================
+
+    public boolean addClass(com.example.gestiondepresence.models.ClassRoom classRoom) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(CLASS_NAME, classRoom.getClassName());
+        values.put(CLASS_DESCRIPTION, classRoom.getDescription());
+
+        long result = db.insert(TABLE_CLASSES, null, values);
+        return result != -1;
+    }
+
+    public List<com.example.gestiondepresence.models.ClassRoom> getAllClasses() {
+        List<com.example.gestiondepresence.models.ClassRoom> classList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_CLASSES, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                com.example.gestiondepresence.models.ClassRoom classRoom = new com.example.gestiondepresence.models.ClassRoom();
+                classRoom.setId(cursor.getInt(0));
+                classRoom.setClassName(cursor.getString(1));
+                classRoom.setDescription(cursor.getString(2));
+                classList.add(classRoom);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return classList;
+    }
+
+    public boolean updateClass(com.example.gestiondepresence.models.ClassRoom classRoom) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(CLASS_NAME, classRoom.getClassName());
+        values.put(CLASS_DESCRIPTION, classRoom.getDescription());
+
+        int result = db.update(TABLE_CLASSES, values,
+                CLASS_ID + "=?",
+                new String[]{String.valueOf(classRoom.getId())});
+        return result > 0;
+    }
+
+    public boolean deleteClass(int classId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int result = db.delete(TABLE_CLASSES,
+                CLASS_ID + "=?",
+                new String[]{String.valueOf(classId)});
+        return result > 0;
+    }
+
+    public List<Student> getStudentsByClass(int classId) {
+        List<Student> studentList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // D'abord, obtenir le nom de la classe
+        Cursor classCursor = db.query(TABLE_CLASSES,
+                new String[]{CLASS_NAME},
+                CLASS_ID + "=?",
+                new String[]{String.valueOf(classId)},
+                null, null, null);
+
+        if (classCursor.moveToFirst()) {
+            String className = classCursor.getString(0);
+            classCursor.close();
+
+            // Ensuite, obtenir tous les étudiants avec ce nom de classe comme groupe
+            Cursor cursor = db.query(TABLE_STUDENTS,
+                    null,
+                    STUDENT_GROUP + "=?",
+                    new String[]{className},
+                    null, null, null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    Student student = new Student();
+                    student.setId(cursor.getInt(0));
+                    student.setName(cursor.getString(1));
+                    student.setSurname(cursor.getString(2));
+                    student.setGroup(cursor.getString(3));
+                    studentList.add(student);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } else {
+            classCursor.close();
+        }
+
+        return studentList;
+    }
+
+    // Nouvelle méthode: Obtenir les étudiants par nom de classe
+    public List<Student> getStudentsByClassName(String className) {
+        List<Student> studentList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_STUDENTS,
+                null,
+                STUDENT_GROUP + "=?",
+                new String[]{className},
+                null, null, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Student student = new Student();
+                student.setId(cursor.getInt(0));
+                student.setName(cursor.getString(1));
+                student.setSurname(cursor.getString(2));
+                student.setGroup(cursor.getString(3));
+                studentList.add(student);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return studentList;
     }
 }

@@ -1,6 +1,5 @@
 package com.example.gestiondepresence;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -48,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (db.loginUser(email, password)) {
                     Toast.makeText(LoginActivity.this, "Connexion réussie", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(LoginActivity.this, StudentListActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
                     startActivity(intent);
                     finish();
                 } else {

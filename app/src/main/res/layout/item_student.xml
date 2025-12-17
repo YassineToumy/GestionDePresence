@@ -21,8 +21,8 @@
 
         <TextView
             android:id="@+id/txtGroup"
-            android:text="Groupe: A"
-            android:textSize="14sp"
+            android:text="Groupe: A | Absences: 0 | Retards: 0"
+            android:textSize="12sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp" />
